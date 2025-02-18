@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <utility>
 
 using namespace std;
 
@@ -25,6 +26,24 @@ int distance_between_point_line(int x0, int y0, int a, int b, int c) // ax + by 
 	int den = sqrt(a*a + b*b);
 	
 	return quo/den;
+}
+pair<int,int> intersection_between_lines(int m0, int n0, int m1, int n1)
+{
+	// y = m0*x + n0
+	// y = m1*x + n1
+	int x0 = -(n0-n1)/(m0-m1);
+	int y0 = (m0*n1 - m1*n0)/(m0-m1);
+	return pair(x0,y0);
+}
+
+
+pair<int,int> intersection_between_lines(int a0, int b0, int c0, int a1, int b1, int c1)
+{
+	// a0*x + b0*y + c0 = 0
+	// a1*x + b1*y + c1 = 0
+	int x0 = (c0*b1 - c1*b0)/(a1*b0 - a0*b1);
+	int y0 = (a0*c1 - a1*c0)/(a1*b0 - a0*b1);
+	return pair(x0,y0);
 }
 
 bool is_parallels(int m0, int n0, int m1, int n1)
@@ -83,7 +102,7 @@ struct Circle
 	{
 		return distance_between_points(x0,y0,x,y) <= radius;
 	}
-	int circular_sector_area(int theta)
+	int circular_sector_area(int theta) // angulo em graus
 	{
 		return theta*M_PI*radius*radius/360;
 	}
