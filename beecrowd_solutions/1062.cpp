@@ -25,24 +25,30 @@ void func(int N)
 			k++;
 			continue;
 		}
-		else if(s.size() && i == s.top())
+		else if(!s.empty() && i == s.top())
 			s.pop();
 		else if(i > k)
+		{
 			while(i > k)
 			{
 				s.push(k);
 				k++;
 			}
+			k++;
+		}
 		else
 		{	
 			win = false;
-			cout << "NO" << endl;
 			break;
 		}
 	}
 	if(win)
 		cout << "YES" << endl;
+	else
+		cout << "NO" << endl;
 	}
+	cout << endl;
+	return;
 }
 
 
