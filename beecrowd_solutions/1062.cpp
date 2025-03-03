@@ -42,12 +42,11 @@ void func(int N)
 				break;
 			}
 		}
-	if(win)
-		cout << "YES" << endl;
-	else
-		cout << "NO" << endl;
+		if(win)
+			cout << "Yes" << endl;
+		else
+			cout << "No" << endl;
 	}
-	cout << endl;
 	return;
 }
 
@@ -57,12 +56,15 @@ void func(int N)
 int main()
 {
 	int N;
+	
 	do
-	{
+	{	
 		cin >> N;
 		if(!N)
 			break;
 		func(N);
+		cout << endl;
+		
 
 	}while(1);
 
