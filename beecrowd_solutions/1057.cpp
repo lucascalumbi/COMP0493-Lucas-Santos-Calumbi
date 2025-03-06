@@ -62,6 +62,11 @@ int bfs(vector<vector<char>>& G, vector<pair<int,int>>& P)
 					all_reached++;
 					temp.push_back(k);
 				}
+				else if(c == 'A' || c == 'B' || c == 'C')
+				{
+					is_possible = false;
+					break;
+				}
 				else 
 					temp.push_back(k);
 			}
@@ -70,6 +75,8 @@ int bfs(vector<vector<char>>& G, vector<pair<int,int>>& P)
 			else if(is_possible)
 			{
 				string code = encode(temp);
+				if(!(dist.find(code) == dist.end()))
+					continue;
 				dist[code] = dist[code_vp]+1;
 				fila.push(temp);
 			}
