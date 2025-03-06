@@ -8,29 +8,80 @@ pair<T,T> operator+(const pair<T,T>& p1, const pair<T,T>& p2)
 	return {p1.first+p2.first, p1.second+p2.second};
 }
 
+string encode(vector<pair<int,int>> P)
+{
+	return to_string(P[0].first) + "," + to_string(P[0].second) + ";" + to_string(P[1].first) + "," + to_string(P[1].second) + ";" + to_string(P[2].first) + "," + to_string(P[2].second);
+}
+
 int bfs(vector<vector<char>>& G, vector<pair<int,int>>& P)
 {
 	vector<pair<int,int>> moves = {{1,0},{-1,0},{0,1},{0,-1}};
-	vector<pair<int,int>>
+
+	unordered_map<string,int> dist;
+	string p_str = encode(P);
+	dist[p_str] = 0;
+
 	queue<vector<pair<int,int>>> fila;
 	fila.push(P);
+
 	while(!fila.empty())
 	{
-		auto p = fila.front();
+		auto vp = fila.front();
 		fila.pop();
+		string code_vp = encode(vp);
 		
-		vector<pair<int,int>> pm;
-
 		for(auto m : moves)
 		{	
+			int all_reached = 0;
 			bool is_possible = true;
-			for(auto s : p)
+			vector<pair<int,int>> temp;
+			for(auto p : vp)
 			{
 				auto k = p+m;
+				auto x_a = p.first;
+				auto y_a = p.second;
 				auto x = k.first;
 				auto y = k.second;
 
-				if(x < 0 || y < 0 || x > G.size()-1 || y > G.size()-1)
+				if(x < 0 || y < 0 || x >= G.size() || y >= G.size())
+				{
+					is_possible = false;
+					break;
+				}
+				char c = G[x][y];
+				char a = G[x_a][y_a];
+				if(a == 'X')
+				{
+					all_reached++;
+					temp.push_back(p);
+				}
+				else if(c == '#')
+					temp.push_back(p);
+				else if(c == 'X')
+				{
+					all_reached++;
+					temp.push_back(k);
+				}
+				else 
+					temp.push_back(k);
+			}
+			if(is_possible && all_reached == 3)
+				return dist[code_vp]+1;
+			else if(is_possible)
+			{
+				string code = encode(temp);
+				dist[code] = dist[code_vp]+1;
+				fila.push(temp);
+			}
+		}
+	}
+	
+	return -1;
+}
+
+				
+			
+			
 
 
 
@@ -63,7 +114,11 @@ int main()
 		
 		int t = bfs(G,P);
 		
-		cout << "Case " << count++ << ": " << (t>0 ? t : "trapped") << endl;
+		cout << "Case " << count++ << ": ";
+		if(t>0) 
+			cout << t << endl;
+		else 
+			cout << "trapped" << endl;
 
 	}
 
